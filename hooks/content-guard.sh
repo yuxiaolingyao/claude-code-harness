@@ -85,14 +85,8 @@ if [ -n "$blocked_type" ]; then
 
   case "$MODE" in
     enforce)
-      jq -n --arg reason "$blocked_type found in $file_path ($masked)" '{
-        hookSpecificOutput: {
-          hookEventName: "PreToolUse",
-          permissionDecision: "deny",
-          permissionDecisionReason: $reason
-        }
-      }'
-      exit 0
+      echo "SECURITY BLOCK: $blocked_type found in $file_path ($masked)" >&2
+      exit 2
       ;;
     ask)
       jq -n --arg reason "$blocked_type found in $file_path ($masked)" '{

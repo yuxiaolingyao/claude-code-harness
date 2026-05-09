@@ -65,14 +65,8 @@ if [ -n "$blocked_category" ]; then
 
   case "$MODE" in
     enforce)
-      jq -n --arg reason "$blocked_category: $cmd" '{
-        hookSpecificOutput: {
-          hookEventName: "PreToolUse",
-          permissionDecision: "deny",
-          permissionDecisionReason: $reason
-        }
-      }'
-      exit 0
+      echo "SECURITY BLOCK: $blocked_category — $cmd" >&2
+      exit 2
       ;;
     ask)
       jq -n --arg reason "[$blocked_category] $cmd" '{

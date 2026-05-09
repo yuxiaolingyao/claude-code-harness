@@ -57,14 +57,8 @@ if [ -n "$blocked_pattern" ]; then
 
   case "$MODE" in
     enforce)
-      jq -n --arg reason "Sensitive file: $file_path" '{
-        hookSpecificOutput: {
-          hookEventName: "PreToolUse",
-          permissionDecision: "deny",
-          permissionDecisionReason: $reason
-        }
-      }'
-      exit 0
+      echo "SECURITY BLOCK: sensitive file — $file_path" >&2
+      exit 2
       ;;
     ask)
       jq -n --arg reason "Sensitive file: $file_path" '{
