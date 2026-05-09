@@ -1,6 +1,7 @@
 ---
 name: simplify
 description: Review changed code for reuse, quality, and efficiency. Finds redundancy, over-abstraction, and dead code.
+model: auto
 context: fork
 allowed-tools: Read, Grep, Glob
 ---

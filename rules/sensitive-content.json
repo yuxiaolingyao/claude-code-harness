@@ -1,0 +1,57 @@
+{
+  "version": "1.0.0",
+  "description": "Sensitive content detection patterns — PreToolUse:Write|Edit hook reads this file",
+  "patterns": {
+    "api_keys": {
+      "description": "Cloud service API keys and tokens",
+      "patterns": [
+        "sk-[a-zA-Z0-9_-]{20,}",
+        "sk-ant-[a-zA-Z0-9_-]{32,}",
+        "AKIA[A-Z0-9]{16}",
+        "ghp_[a-zA-Z0-9]{36}",
+        "gho_[a-zA-Z0-9]{36}",
+        "ghu_[a-zA-Z0-9]{36}",
+        "github_pat_[a-zA-Z0-9_]{40,}",
+        "xox[bpras]-[a-zA-Z0-9-]{10,}",
+        "sk_live_[a-zA-Z0-9]{24,}",
+        "pk_live_[a-zA-Z0-9]{24,}",
+        "rk_live_[a-zA-Z0-9]{24,}",
+        "sk_test_[a-zA-Z0-9]{24,}",
+        "pk_test_[a-zA-Z0-9]{24,}"
+      ]
+    },
+    "private_keys": {
+      "description": "PEM/PGP private key headers and RSA/EC/OpenSSH/DSA private key markers",
+      "patterns": [
+        "-----BEGIN (RSA|EC|OPENSSH|DSA|PGP) PRIVATE KEY-----",
+        "-----BEGIN PRIVATE KEY-----",
+        "PRIVATE KEY-----"
+      ]
+    },
+    "connection_strings": {
+      "description": "Database connection strings with embedded credentials",
+      "patterns": [
+        "(mongodb|mysql|postgres|postgresql|redis|rediss)://[^@:]+:[^@]+@"
+      ]
+    },
+    "jwt_tokens": {
+      "description": "JWT tokens (header.payload.signature pattern)",
+      "patterns": [
+        "eyJ[a-zA-Z0-9_-]{20,}\\.[a-zA-Z0-9_-]{20,}\\.[a-zA-Z0-9_-]{20,}"
+      ]
+    }
+  },
+  "entropy": {
+    "description": "Heuristic: high-Shannon-entropy strings >30 chars that look like secrets",
+    "enabled": true,
+    "min_length": 30,
+    "threshold": 4.5,
+    "whitelist": [
+      "sha256|sha512|md5 hash hex",
+      "-----BEGIN PUBLIC KEY-----",
+      "-----BEGIN CERTIFICATE-----",
+      "base64-encoded binary data in source",
+      "UUID v4 pattern"
+    ]
+  }
+}

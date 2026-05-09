@@ -10,13 +10,13 @@
 
 ### 安全
 - CRITICAL_RULES.md 保持 30 行以内（每次注入消耗 token）
-- Hook 脚本必须包含 jq 不可用时的 fail-open 回退（`if [ -z "$var" ]; then exit 0; fi`）
+- Hook 脚本 fail-closed：jq 不可用或规则文件丢失时 exit 2（拒绝操作）
 - Hook 脚本禁止 `cat` 回退解析 stdin
 
 ### 可移植性
-- Hook 脚本的 regex 模式禁止出现在脚本自身的字符串字面量中（避免自匹配）
+- 正则规则与执行脚本分离：模式存 rules/*.json，Hook 脚本只做通用匹配引擎
 - 所有 Shell 脚本使用 LF 换行
-- 不依赖 jq（降级提示手动合并）
+- jq 是硬依赖（install.sh 预检 + 安装指引），无 jq 时 Hook 拒绝所有操作（fail-closed）
 
 ### 版本
 - 语义化版本：`MAJOR.MINOR.PATCH`

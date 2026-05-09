@@ -11,13 +11,29 @@
         ]
       }
     ],
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/integrity-check.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/session-start.sh"
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/security-firewall.sh"
+            "command": "bash ~/.claude/hooks/firewall.sh",
+            "timeout": 10
           }
         ]
       },
@@ -26,7 +42,52 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/sensitive-files.sh"
+            "command": "bash ~/.claude/hooks/file-guard.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/content-guard.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/post-format.sh",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/auto-verify.sh",
+            "timeout": 45
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/sentinel.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/compact-save.sh",
+            "timeout": 10
           }
         ]
       }
@@ -36,8 +97,8 @@
         "matcher": "",
         "hooks": [
           {
-            "type": "command",
-            "command": "exit 0"
+            "type": "prompt",
+            "prompt": "Check if the agent has unfinished work. Look for: compilation errors in recent output, test failures, TODO items not completed, or files edited without verification. If work remains incomplete, reply ONLY with the word 'continue'. If all work is done and verified, reply ONLY with the word 'done'."
           }
         ]
       }

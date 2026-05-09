@@ -1,7 +1,7 @@
 ---
 name: security-check
 description: Security review for hardcoded secrets, injection, path traversal, and unsafe patterns. Language-agnostic.
-model: opus
+model: auto
 context: fork
 allowed-tools: Read, Grep, Glob
 ---

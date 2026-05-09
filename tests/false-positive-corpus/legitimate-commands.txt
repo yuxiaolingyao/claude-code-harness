@@ -1,0 +1,74 @@
+# Legitimate developer commands that MUST pass the firewall
+# Package management
+npm install
+npm install lodash
+npm test
+npm run build
+npm run dev
+npm ci
+pip install requests
+pip install -r requirements.txt
+pip install --upgrade pip
+# pip install -i https://pypi.org/simple/ numpy — blocked (custom registry flag is supply-chain risk, requires explicit allow)
+gem install rails
+# Git operations (safe)
+git status
+git diff
+git add .
+git add src/main.js
+git commit -m "fix: typo in readme"
+git push origin feature/branch
+git pull origin main
+git fetch --all
+git log --oneline -10
+git branch feature/new-feature
+git checkout feature/branch
+git merge feature/branch
+git stash
+git stash pop
+git rebase main
+# Build / test
+make
+make test
+make build
+cargo build
+cargo test
+go build ./...
+go test ./...
+mvn compile
+mvn test
+gradle build
+gradle test
+# File operations (safe)
+ls -la
+find . -name "*.js"
+grep -r "TODO" src/
+cat package.json
+cat README.md
+echo "hello world"
+head -20 app.log
+tail -100 server.log
+# Docker (safe)
+docker ps
+docker images
+docker build -t myapp .
+docker compose up
+docker compose down
+# Environment (safe)
+node --version
+python --version
+rustc --version
+which node
+export NODE_ENV=development
+echo $PATH
+# Cloud CLI (safe, config only)
+aws s3 ls
+gcloud config list
+kubectl get pods
+kubectl describe deployment app
+terraform plan
+terraform init
+helm list
+# Network (safe)
+curl https://registry.npmjs.org/
+ping -c 1 google.com

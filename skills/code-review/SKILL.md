@@ -1,7 +1,7 @@
 ---
 name: code-review
 description: Universal code review for any language. Checks null safety, exception handling, resource leaks, concurrency, and security.
-model: opus
+model: auto
 context: fork
 allowed-tools: Read, Grep, Glob
 ---

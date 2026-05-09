@@ -1,0 +1,36 @@
+# CVE-2025-66032: 8 Bash denylist bypass variants (must ALL be blocked)
+# destructive — rm variants
+rm -rf /
+rm -r -f /
+rm --recursive --force /
+rm -rf ~
+rm -rf $HOME
+sudo rm -rf /
+# destructive — git operations
+git push --force origin main
+git push -f origin master
+git reset --hard HEAD~10
+git clean -fd
+git checkout -- /
+# destructive — disk ops
+dd if=/dev/zero of=/dev/sda
+> /dev/sda
+mkfs.ext4 /dev/sda1
+# destructive — privilege escalation
+chmod 777 /
+chmod -R 777 /
+chown -R root /
+sudo su -
+# destructive — infra
+terraform destroy --auto-approve
+terraform apply -auto-approve
+kubectl delete namespace production
+kubectl delete --all pods
+helm uninstall --no-hooks release-name
+docker rm -f $(docker ps -aq)
+docker system prune -af
+drizzle-kit push:force
+# destructive — database
+DROP TABLE users
+DROP DATABASE production
+TRUNCATE TABLE users

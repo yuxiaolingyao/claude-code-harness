@@ -1,0 +1,25 @@
+name: Conformance Test
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install jq
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq jq
+
+      - name: Run conformance tests
+        run: bash tests/conformance.sh
+
+      - name: Verify fail-closed behavior
+        run: |
+          echo '{}' | bash hooks/firewall.sh 2>/dev/null; [ $? -eq 2 ] || { echo "FAIL: firewall not fail-closed"; exit 1; }
+          echo '{}' | bash hooks/file-guard.sh 2>/dev/null; [ $? -eq 2 ] || { echo "FAIL: file-guard not fail-closed"; exit 1; }
+          echo '{}' | bash hooks/content-guard.sh 2>/dev/null; [ $? -eq 2 ] || { echo "FAIL: content-guard not fail-closed"; exit 1; }
