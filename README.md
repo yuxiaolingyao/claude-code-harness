@@ -14,7 +14,7 @@ Core             ──→ CLAUDE.md + .claudeignore    基线规则 + 上下文
 Skills           ──→ skills/*/SKILL.md            按需触发的领域知识
 ```
 
-## 一键安装
+## 安装
 
 ```bash
 git clone https://github.com/<your-username>/claude-code-harness.git
@@ -22,12 +22,9 @@ cd claude-code-harness
 bash install.sh
 ```
 
-install.sh 会：
-- 复制 core/ 到 `~/.claude/`
-- 复制 hooks/ 到 `~/.claude/hooks/`
-- 复制 skills/ 到 `~/.claude/skills/`
-- 智能合并 settings.json 的 hooks 段（保留你的 env 配置）
-- 同名文件自动备份到 `~/.claude/backups/`
+install.sh 自动复制所有文件到 `~/.claude/`，同名文件备份到 `~/.claude/backups/`。最后打印 settings.json 要追加的 hooks 段，手动粘贴即可。
+
+> Windows 用户：Claude Code 自带 Git Bash，install.sh 在其中直接运行，无需额外安装任何工具。
 
 ## 包含的 Skills
 
