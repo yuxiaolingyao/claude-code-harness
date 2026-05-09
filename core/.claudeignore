@@ -1,0 +1,65 @@
+# 依赖
+node_modules/
+**/node_modules/
+**/__pycache__/
+**/.venv/
+**/venv/
+*.pyc
+
+# 构建产物
+dist/
+build/
+target/
+out/
+*.class
+*.jar
+*.war
+
+# 锁文件
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+poetry.lock
+*.lock
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# 大体积非代码
+*.min.js
+*.min.css
+*.map
+*.svg
+*.png
+*.jpg
+*.gif
+*.ico
+*.pdf
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 密钥
+*.pem
+*.key
+
+# Git
+.git/
+
+# 大数据/模型
+*.bin
+*.pth
+*.h5
+*.pb
+*.onnx
+*.ckpt
+*.safetensors
+
+# Python
+miniconda3/
+Anaconda/
+AppData/
+.cache/
