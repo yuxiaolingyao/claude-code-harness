@@ -20,6 +20,12 @@ jobs:
 
       - name: Verify fail-closed behavior
         run: |
-          echo '{}' | bash hooks/firewall.sh 2>/dev/null; [ $? -eq 2 ] || { echo "FAIL: firewall not fail-closed"; exit 1; }
-          echo '{}' | bash hooks/file-guard.sh 2>/dev/null; [ $? -eq 2 ] || { echo "FAIL: file-guard not fail-closed"; exit 1; }
-          echo '{}' | bash hooks/content-guard.sh 2>/dev/null; [ $? -eq 2 ] || { echo "FAIL: content-guard not fail-closed"; exit 1; }
+          set +e
+          echo '{}' | bash hooks/firewall.sh 2>/dev/null; r1=$?
+          echo '{}' | bash hooks/file-guard.sh 2>/dev/null; r2=$?
+          echo '{}' | bash hooks/content-guard.sh 2>/dev/null; r3=$?
+          set -e
+          [ $r1 -eq 2 ] || { echo "FAIL: firewall not fail-closed (got $r1)"; exit 1; }
+          [ $r2 -eq 2 ] || { echo "FAIL: file-guard not fail-closed (got $r2)"; exit 1; }
+          [ $r3 -eq 2 ] || { echo "FAIL: content-guard not fail-closed (got $r3)"; exit 1; }
+          echo "fail-closed: all 3 hooks OK"
