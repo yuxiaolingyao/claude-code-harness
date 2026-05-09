@@ -131,7 +131,7 @@ run_corpus_paths "$HOOKS_DIR/file-guard.sh" "$SCRIPT_DIR/false-positive-corpus/s
 
 # ── 5. Content-guard adversarial (must BLOCK) ──
 echo "[5/6] Content-guard — adversarial (must BLOCK)"
-run_corpus_content "$HOOKS_DIR/content-guard.sh" "$SCRIPT_DIR/adversarial-corpus/credential-exfil.txt" 2 "adversary/content"
+run_corpus_content "$HOOKS_DIR/content-guard.sh" "$SCRIPT_DIR/adversarial-corpus/secret-content.txt" 2 "adversary/content"
 
 # ── 6. Content-guard fail-closed (no jq in hook) ──
 echo "[6/6] Hooks — fail-closed check"
